@@ -1,0 +1,17 @@
+env: "local"
+server:
+  port: ":8001"
+postgres:
+  user: "postgres"
+  pass: "root"
+  port: "5432"
+  host: "postgresql"
+  name: "clean"
+  reload: false
+mongo:
+  port: "27017"
+  host: "mongo"
+  user: "root"
+  pass: "example"
+sqlite:
+  name: "../test.db"
