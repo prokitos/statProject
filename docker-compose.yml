@@ -4,8 +4,7 @@ networks:
   ps:
 
 services:
-
-  clean:
+  newer:
     image: newer
     container_name: ps-nwersrv
     ports:
@@ -30,6 +29,15 @@ services:
       - "3000:3000"
     volumes: 
       - grafana-data:/var/lib/grafana
+
+  clickhouse-db:
+    image: clickhouse/clickhouse-server:latest
+    environment:
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: qwerty123
+    ports:
+      - "8123:8123"
+      - "9000:9000"
 
 volumes:
   grafana-data:

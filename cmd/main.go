@@ -2,10 +2,10 @@ package main
 
 import (
 	"myMod/internal/app"
+	"myMod/internal/clickhouseStat"
 	"myMod/internal/config"
-	"os"
-	"os/signal"
-	"syscall"
+	"myMod/internal/mysql"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -20,12 +20,16 @@ func main() {
 	cfg.ConfigMustLoad("docker")
 	log.Debug("config is loaded")
 
+	clickDB, err := mysql.NewClickhouseWriter("127.0.0.1", 9000, "rotator", "statistics", "default", "qwerty123")
+	if err != nil {
+		return
+	}
+
+	statsManager := clickhouseStat.NewManager(clickDB, 10*time.Second)
+	statsManager.StartTimer()
+
 	var application app.App
-	go application.NewServer(cfg.Server.Port)
+	application.NewServer(cfg.Server.Port)
 	log.Debug("server is loaded")
 
-	stop := make(chan os.Signal, 1)
-	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT)
-	<-stop
-	application.Stop()
 }

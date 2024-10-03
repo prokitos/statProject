@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"myMod/internal/transport"
+	"myMod/internal/clickhouseStat"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,22 +11,19 @@ import (
 
 type App struct {
 	Server *gin.Engine
+	Stats  *clickhouseStat.Manager
 }
 
 func (a *App) NewServer(port string) {
 	app := gin.New()
 	a.Server = app
-	a.setHandler()
+	a.SetHandlers()
 	a.launchServer(port)
 }
 
 func (a *App) Stop() {
 	fmt.Println("Gracefully shutting down...")
 	//a.Server.(50 * time.Second)
-}
-
-func (a *App) setHandler() {
-	transport.SetHandlers(a.Server)
 }
 
 func (a *App) launchServer(port string) {

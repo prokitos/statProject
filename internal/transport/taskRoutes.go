@@ -7,22 +7,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getTask(c *gin.Context) {
+func GetTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, "okey")
 }
 
-func insertTask(c *gin.Context) {
+func InsertTask(c *gin.Context) {
 	time.Sleep(time.Second * 1)
 	c.JSON(http.StatusOK, "okey")
 }
 
-func deleteTask(c *gin.Context) {
+func DeleteTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, "okey")
 }
 
-func updateTask(c *gin.Context) {
+func UpdateTask(c *gin.Context) {
 
 	c.JSON(http.StatusOK, "okey")
 }
