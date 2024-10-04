@@ -10,8 +10,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// запуск логов; загрузка конфигов; запуск бд и сервера.
-
 func main() {
 	log.SetLevel(log.DebugLevel)
 	log.Debug("log is loaded")
@@ -25,10 +23,13 @@ func main() {
 		return
 	}
 
+	time.Sleep(time.Second)
+
 	statsManager := clickhouseStat.NewManager(clickDB, 10*time.Second)
 	statsManager.StartTimer()
 
 	var application app.App
+	application.NewManager(statsManager)
 	application.NewServer(cfg.Server.Port)
 	log.Debug("server is loaded")
 

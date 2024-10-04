@@ -14,6 +14,10 @@ type App struct {
 	Stats  *clickhouseStat.Manager
 }
 
+func (a *App) NewManager(manager *clickhouseStat.Manager) {
+	a.Stats = manager
+}
+
 func (a *App) NewServer(port string) {
 	app := gin.New()
 	a.Server = app

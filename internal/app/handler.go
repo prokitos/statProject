@@ -4,6 +4,7 @@ import (
 	"myMod/internal/clickhouseStat"
 	"myMod/internal/metrics"
 	"myMod/internal/transport"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mssola/user_agent"
@@ -49,12 +50,12 @@ func (a *App) GetClickMetrics(ctx *gin.Context) {
 		a.Stats.Append(statsKey, statsValue)
 	}()
 
-	// country := "russia"
-	// statsKey.Country = country
+	country := "russia"
+	statsKey.Country = country
 
-	// if time.Now().Second() > 30 {
-	// 	statsValue.Impressions++
-	// }
+	if time.Now().Second() > 30 {
+		statsValue.Impressions++
+	}
 
 }
 

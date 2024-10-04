@@ -7,8 +7,7 @@ import (
 
 type (
 	Key struct {
-		Timestamp int64
-
+		Timestamp  int64
 		Country    string
 		Os         string
 		Browser    string
