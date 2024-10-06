@@ -1,7 +1,7 @@
 package app
 
 import (
-	"myMod/internal/clickhouseStat"
+	"myMod/internal/database"
 	"myMod/internal/metrics"
 	"myMod/internal/transport"
 	"time"
@@ -39,22 +39,20 @@ func (a *App) GetClickMetrics(ctx *gin.Context) {
 	parsed := user_agent.New(ua)
 	browserName, _ := parsed.Browser()
 
-	statsKey := clickhouseStat.NewKey(clickhouseStat.Key{
-		Os:      parsed.OS(),
-		Browser: browserName,
-	})
-
-	statsValue := clickhouseStat.Value{Requests: 1}
+	var data database.Statistic
+	data.Os = parsed.OS()
+	data.Browser = browserName
+	data.Request = 1
+	data.Country = "russia"
+	currentTime := time.Now()
+	data.Timestamp = currentTime.Format("2006.01.02 15:04:05")
 
 	defer func() {
-		a.Stats.Append(statsKey, statsValue)
+		a.Stats.Adding(data)
 	}()
 
-	country := "russia"
-	statsKey.Country = country
-
 	if time.Now().Second() > 30 {
-		statsValue.Impressions++
+		data.Impression++
 	}
 
 }

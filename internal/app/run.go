@@ -2,7 +2,7 @@ package app
 
 import (
 	"fmt"
-	"myMod/internal/clickhouseStat"
+	"myMod/internal/database"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,10 +11,10 @@ import (
 
 type App struct {
 	Server *gin.Engine
-	Stats  *clickhouseStat.Manager
+	Stats  *database.Manager
 }
 
-func (a *App) NewManager(manager *clickhouseStat.Manager) {
+func (a *App) NewManager(manager *database.Manager) {
 	a.Stats = manager
 }
 
