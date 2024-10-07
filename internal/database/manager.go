@@ -12,11 +12,10 @@ type Manager struct {
 	ctx           context.Context
 	cancel        context.CancelFunc
 	mu            sync.RWMutex
-	rows          Statistic
+	rows          []Statistic
 }
 
 var GlobalManager *Manager
-var defaultCapacity = 1000
 
 func NewManager(db *ClickDatabase, flushInterval time.Duration) *Manager {
 	ctx, cancel := context.WithCancel(context.Background())
@@ -35,13 +34,13 @@ func NewManager(db *ClickDatabase, flushInterval time.Duration) *Manager {
 
 }
 
-func newRows() Statistic {
-	return Statistic{}
+func newRows() []Statistic {
+	return make([]Statistic, 0)
 }
 
 type Rows Statistic
 
-func (m *Manager) Withdraw() Statistic {
+func (m *Manager) Withdraw() []Statistic {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
@@ -51,20 +50,14 @@ func (m *Manager) Withdraw() Statistic {
 	return rows
 }
 
-func (m *Manager) Summary(row Statistic) {
+func (m *Manager) Summary(row []Statistic) {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	m.rows.Request += row.Request
-	m.rows.Impression += row.Impression
-	m.rows.Browser = row.Browser
-	m.rows.Os = row.Os
-	m.rows.Country = row.Country
-	m.rows.Timestamp = row.Timestamp
-
+	m.rows = append(m.rows, row...)
 }
 
 // добавление данных при запросе в менеджер.
 func (m *Manager) Adding(data Statistic) {
-	m.rows = data
+	m.rows = append(m.rows, data)
 }

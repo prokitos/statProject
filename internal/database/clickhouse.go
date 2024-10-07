@@ -57,7 +57,7 @@ func (currentlDB *ClickDatabase) cOpenConnect() error {
 	return nil
 }
 
-func (currentlDB *ClickDatabase) ClickHouseInsert(data Statistic) error {
+func (currentlDB *ClickDatabase) ClickHouseInsert(data []Statistic) error {
 
 	if result := currentlDB.Instance.Create(&data); result.Error != nil {
 		return result.Error

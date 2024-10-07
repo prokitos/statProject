@@ -45,7 +45,7 @@ func (a *App) GetClickMetrics(ctx *gin.Context) {
 	data.Request = 1
 	data.Country = "russia"
 	currentTime := time.Now()
-	data.Timestamp = currentTime.Format("2006.01.02 15:04:05")
+	data.Timestamp = currentTime
 
 	defer func() {
 		a.Stats.Adding(data)

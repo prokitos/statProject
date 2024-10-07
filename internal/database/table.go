@@ -1,7 +1,9 @@
 package database
 
+import "time"
+
 type Statistic struct {
-	Timestamp  string
+	Timestamp  time.Time
 	Country    string
 	Os         string
 	Browser    string

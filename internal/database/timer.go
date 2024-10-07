@@ -31,7 +31,7 @@ func (m *Manager) StartInserting() {
 
 	// безопасно получаем данные из менеджера
 	rows := m.Withdraw()
-	if rows.Request == 0 {
+	if len(rows) == 0 {
 		fmt.Println("nothing")
 		return
 	}
